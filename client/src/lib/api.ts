@@ -13,7 +13,9 @@ import type {
   ReportStats,
 } from "./types";
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
+const rawApiUrl = process.env.NEXT_PUBLIC_API_URL || "http://localhost:5000/api";
+const normalizedApiUrl = rawApiUrl.replace(/\/$/, "");
+const API_URL = normalizedApiUrl.endsWith("/api") ? normalizedApiUrl : `${normalizedApiUrl}/api`;
 
 const api = axios.create({
   baseURL: API_URL,
