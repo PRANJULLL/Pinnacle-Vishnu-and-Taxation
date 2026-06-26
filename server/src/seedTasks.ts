@@ -45,7 +45,7 @@ const sampleTasks = [
     pan: "PQRST3456U",
     phone: "6543210987",
     email: "sneha@email.com",
-    plan: "2000",
+    plan: "Assisted Filing - Basic",
     amount: 2000,
     taxExpert: "Vivek",
     status: "Stuck" as const,

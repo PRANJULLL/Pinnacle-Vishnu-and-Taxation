@@ -3,10 +3,9 @@ export const CLIENTS = ["All", "Pinnacle", "Vishnu", "Clear Tax"] as const;
 export const EMPLOYEES = ["Jay", "Mohan", "Prem", "Vivek"] as const;
 
 export const PLANS = [
-  { label: "Assisted Filing - Basic", value: "Assisted Filing - Basic", amount: 500 },
-  { label: "Assisted Filing - Premium", value: "Assisted Filing - Premium", amount: 1300 },
-  { label: "Assisted Filing - Elite", value: "Assisted Filing - Elite", amount: 1800 },
-  { label: "2000", value: "2000", amount: 2000 },
+  { label: "Basic", value: "Basic", amount: 500 },
+  { label: "Elite", value: "Elite", amount: 1800 },
+  { label: "Premium", value: "Premium", amount: 1300 },
 ] as const;
 
 export const STATUSES = ["All", "Pending", "Completed", "Stuck"] as const;
@@ -18,7 +17,7 @@ export const DATE_FILTERS = ["All", "Today", "This Week", "This Month"] as const
 export const NAV_ITEMS = [
   { href: "/dashboard", label: "Dashboard", icon: "LayoutDashboard" },
   { href: "/tasks", label: "Tasks", icon: "CheckSquare" },
-  { href: "/employees", label: "Employees", icon: "Users" },
+  { href: "/employees", label: "Task Experts", icon: "Users" },
   { href: "/invoices", label: "Invoices", icon: "FileText" },
   { href: "/reports", label: "Reports", icon: "BarChart3" },
   { href: "/settings", label: "Settings", icon: "Settings" },

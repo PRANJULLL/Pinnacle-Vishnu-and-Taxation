@@ -19,12 +19,13 @@ const buildTaskFilter = (query: Request["query"]) => {
   }
   if (query.employee && query.employee !== "All") filter.taxExpert = query.employee;
   if (query.plan && query.plan !== "All") {
-    const planMap: Record<string, string> = {
-      Basic: "Assisted Filing - Basic",
-      Premium: "Assisted Filing - Premium",
-      Elite: "Assisted Filing - Elite",
+    const planMap: Record<string, string[]> = {
+      Basic: ["Basic", "Assisted Filing - Basic"],
+      Premium: ["Premium", "Assisted Filing - Premium"],
+      Elite: ["Elite", "Assisted Filing - Elite"],
     };
-    filter.plan = planMap[query.plan as string] || query.plan;
+    const mapped = planMap[query.plan as string] || [query.plan];
+    filter.plan = { $in: mapped };
   }
 
   if (query.search) {
@@ -100,10 +101,14 @@ router.get("/:id", async (req: Request, res: Response) => {
 
 router.post("/", async (req: Request, res: Response) => {
   try {
-    const { orderId, client, customerName, pan, phone, email, plan, taxExpert, remarks, createdAt, reference } = req.body;
-    const amount = PLANS[plan];
-    if (amount === undefined) {
-      return res.status(400).json({ message: "Invalid plan selected" });
+    const { orderId, client, customerName, pan, phone, email, plan, taxExpert, remarks, createdAt, reference, amount } = req.body;
+    
+    let finalAmount = amount;
+    if (client === "Clear Tax") {
+      finalAmount = PLANS[plan];
+      if (finalAmount === undefined) {
+        return res.status(400).json({ message: "Invalid plan selected" });
+      }
     }
 
     let finalOrderId = orderId;
@@ -125,7 +130,7 @@ router.post("/", async (req: Request, res: Response) => {
       phone,
       email,
       plan,
-      amount,
+      amount: finalAmount,
       taxExpert,
       remarks: remarks || "",
       status: "Pending",
@@ -142,7 +147,7 @@ router.post("/", async (req: Request, res: Response) => {
 router.put("/:id", async (req: Request, res: Response) => {
   try {
     const updates = { ...req.body };
-    if (updates.plan) {
+    if (updates.client === "Clear Tax" && updates.plan) {
       updates.amount = PLANS[updates.plan];
     }
     if (updates.createdAt) {

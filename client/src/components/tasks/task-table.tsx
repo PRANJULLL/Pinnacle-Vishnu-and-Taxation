@@ -200,6 +200,10 @@ export function TaskTable({
 
       let cols = [...allCols];
 
+      if (selectedClient !== "All") {
+        cols = cols.filter((col) => (col as any).accessorKey !== "client");
+      }
+
       if (selectedClient === "Pinnacle" || selectedClient === "Vishnu") {
         cols = cols.filter(
           (col) =>

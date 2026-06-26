@@ -25,7 +25,7 @@ export function TaskViewDialog({ task, open, onOpenChange, onComplete }: TaskVie
   const fields = [
     { label: "Order ID", value: (task.client === "Pinnacle" || task.client === "Vishnu") ? "—" : task.orderId },
     { label: "Client", value: task.client },
-    ...(task.client === "Clear Tax" ? [{ label: "Reference", value: task.reference || "—" }] : []),
+    ...(task.client === "Pinnacle" ? [{ label: "Reference", value: task.reference || "—" }] : []),
     { label: "Customer Name", value: task.customerName },
     { label: "PAN Number", value: task.client === "Clear Tax" ? "—" : task.pan },
     { label: "Phone", value: task.phone },

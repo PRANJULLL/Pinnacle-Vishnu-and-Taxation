@@ -107,7 +107,7 @@ export function TaskFormDialog({
   const handleFormSubmit = async (data: TaskFormData) => {
     const finalData = { ...data };
     if (finalData.client !== "Clear Tax") {
-      finalData.plan = "Assisted Filing - Basic";
+      finalData.plan = "Basic";
     }
     await onSubmit(finalData);
     onOpenChange(false);
@@ -150,7 +150,7 @@ export function TaskFormDialog({
               </div>
             )}
 
-            {selectedClient === "Clear Tax" && (
+            {selectedClient === "Pinnacle" && (
               <div className="space-y-2">
                 <Label>Reference</Label>
                 <Input

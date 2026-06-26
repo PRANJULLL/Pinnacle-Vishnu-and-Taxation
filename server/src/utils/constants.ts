@@ -1,8 +1,10 @@
 export const PLANS: Record<string, number> = {
+  Basic: 500,
+  Elite: 1800,
+  Premium: 1300,
   "Assisted Filing - Basic": 500,
   "Assisted Filing - Premium": 1300,
   "Assisted Filing - Elite": 1800,
-  "2000": 2000,
 };
 
 export const EMPLOYEES = ["Jay", "Mohan", "Prem", "Vivek"];
