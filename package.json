@@ -2,18 +2,16 @@
   "name": "management-system",
   "version": "1.0.0",
   "private": true,
-  "workspaces": [
-    "server",
-    "client"
-  ],
+
   "description": "CA Office Management System - Internal office management tool",
   "scripts": {
-    "dev": "concurrently \"npm run dev --workspace=server\" \"npm run dev --workspace=client\"",
+    "dev": "concurrently \"npm run dev --prefix server\" \"npm run dev --prefix client\"",
     "dev:server": "npm run dev --prefix server",
     "dev:client": "npm run dev --prefix client",
-    "build": "npm run build --workspace=server && npm run build --workspace=client",
+    "build": "npm run build --prefix server && npm run uild --prefix client",
     "start:server": "npm run start --prefix server"
   },
+  
   "devDependencies": {
     "concurrently": "^9.1.2"
   }
