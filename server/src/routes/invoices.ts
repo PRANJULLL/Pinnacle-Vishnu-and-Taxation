@@ -68,9 +68,37 @@ router.get("/download/:invoiceNumber", async (req: Request, res: Response) => {
     const invoice = await Invoice.findOne({ invoiceNumber: req.params.invoiceNumber });
     if (!invoice) return res.status(404).json({ message: "Invoice not found" });
 
-    const filePath = invoice.pdfPath || getInvoiceFilePath(invoice.invoiceNumber);
+    let filePath = invoice.pdfPath || getInvoiceFilePath(invoice.invoiceNumber);
+
+    // If the file does not exist on disk, regenerate it
     if (!fs.existsSync(filePath)) {
-      return res.status(404).json({ message: "PDF file not found" });
+      const task = await Task.findOne({ invoiceId: invoice._id });
+      if (task) {
+        filePath = await generateInvoicePDF({
+          invoiceNumber: invoice.invoiceNumber,
+          customerName: task.customerName,
+          amount: task.amount,
+          plan: task.plan,
+          date: invoice.createdAt || new Date(),
+          orderId: task.orderId,
+          pan: task.pan,
+          phone: task.phone,
+          email: task.email,
+          client: task.client,
+        });
+
+        // Update the pdfPath in database to match current environment's path
+        invoice.pdfPath = filePath;
+        await invoice.save();
+      } else {
+        // Fall back to a localized default path guess if Task is not found
+        const localPath = getInvoiceFilePath(invoice.invoiceNumber);
+        if (fs.existsSync(localPath)) {
+          filePath = localPath;
+        } else {
+          return res.status(404).json({ message: "PDF file not found and associated task not found for regeneration" });
+        }
+      }
     }
 
     res.download(filePath, `${invoice.invoiceNumber}.pdf`);

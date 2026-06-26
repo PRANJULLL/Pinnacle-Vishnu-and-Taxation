@@ -34,8 +34,8 @@ export const generateInvoicePDF = async (data: InvoiceData): Promise<string> => 
   const fileName = `${data.invoiceNumber}.pdf`;
   const filePath = path.join(INVOICES_DIR, fileName);
 
-  const qrData = `Invoice: ${data.invoiceNumber}\nCustomer: ${data.customerName}\nAmount: ₹${data.amount}\nPlan: ${data.plan}`;
-  const qrBuffer = await QRCode.toBuffer(qrData, { margin: 1, width: 90 });
+  const upiUrl = `upi://pay?pa=${BANK_DETAILS.upiId}&pn=${encodeURIComponent(BANK_DETAILS.payeeName)}&am=${data.amount}&cu=INR&tn=${encodeURIComponent(`Invoice ${data.invoiceNumber}`)}`;
+  const qrBuffer = await QRCode.toBuffer(upiUrl, { margin: 1, width: 90 });
 
   return new Promise((resolve, reject) => {
     // 50pt margins: top 50, bottom 50, left 50, right 50

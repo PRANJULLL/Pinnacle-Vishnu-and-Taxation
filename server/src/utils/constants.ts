@@ -14,4 +14,7 @@ export const BANK_DETAILS = {
   accountType: "CURRENT ACCOUNT",
   accountNumber: "21200200000335",
   ifsc: "BARB0TRDJIW",
+  upiId: "9467362705@ptaxis",
+  payeeName: "Pinnacle Accounting Services",
 };
+
